@@ -21,7 +21,7 @@ DESEMPEÑO={'Alejandro':1,'Alfaima':7,'Andres':4,'Ariadna':9,'Benji':7,'Camila':
 
 PRESUPUESTO=85000000
 
-tres=3
+
 
 # VARIABLES DE DECISION
 x = lp.LpVariable.dict('Escoger_nadador', NADADORES, 0, None, lp.LpBinary)
@@ -41,7 +41,7 @@ prob += (x['Ariadna']==x['Ariadna'])
 
 #En caso de escoger a Freddy o a Alejandro (o los dos), debe escoger a Daniel C.
 prob += ((x['Freddy']+x['Alejandro'])/2<=x['Daniel C'])
-print(lp.lpSum((x['Juan Diego'],x['Juan E'],x['Juliana'],x['Sofia'],x['Valentina'])))
+
       
 #Se deben seleccionar máximo dos de los nadadores estándar: Juan Diego, Juan E, Juliana, Sofía o Valentina.
 prob += (lp.lpSum([x['Juan Diego'],x['Juan E'],x['Juliana'],x['Sofia'],x['Valentina']])<=2)
@@ -74,6 +74,6 @@ print('status: ', lp.LpStatus[prob.status])
 
 # FUNCION OBJETIVO
 # imprimir la fo
-print('El costo total es: ', lp.value(prob.objective))
+print('El desempeño total es: ', lp.value(prob.objective))
 
 
