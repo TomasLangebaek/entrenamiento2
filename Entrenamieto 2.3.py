@@ -42,8 +42,6 @@ asistencia={('Titanic',1):73,('Titanic',2):107,('Titanic',3):96,
    ('Fight club',16):0}
 
 
-
-
 # variables de decicion
 lista_auxiliar_indices =[]
 for m in PELICULAS:
@@ -62,7 +60,7 @@ prob = lp.LpProblem('AutoCine', lp.LpMaximize)
 
 #Funcion Objetivo
 
-prob+=lp.lpSum(x[l]*costo_mantenimiento[l]for l in LOCALES)+lp.lpSum(y[l]*salario for l in LOCALES)+lp.lpSum(z[(l,u)]*costo_envio[(l,u)] for l in LOCALES for u in UNIVERSIDADES)
+prob+=lp.lpSum(y[(m, p, f)]*asistencia[(m,f)]for m in PELICULAS for p in PARQUEADEROS for f in FRANJAS)
 
 #Restricciones
 
