@@ -76,12 +76,14 @@ for m in PELICULAS:
     prob+=lp.lpSum(y[(m,p,f)]for p in PARQUEADEROS for f in FRANJAS )<=min_proyecciones[m]
 
 
-#Garantizar que no se inicie la proyección de una película en másde un parqueadero al tiempo
+#Garantizar que no se inicie la proyección de una película en más de un parqueadero al tiempo
 
-for u in UNIVERSIDADES:
-    prob+=lp.lpSum(z[(l,u)]for l in LOCALES)>=demanda[u]
+for f in FRANJAS:
+    for m in PELICULAS:
+        prob+=lp.lpSum(y[(m,p,f)]for p in PARQUEADEROS)<=1
     
 #Modele la(s) condición(es) sobre la duración de una película
+
         
 #Resolver el problema
 prob.solve()
