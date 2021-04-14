@@ -35,26 +35,17 @@ produccion=300
 
 
 # variables de decicion
-x=lp.LpVariable.dicts(name='Litros_leche_plantas_a_clientes', indexs=[(l,p,c)for l in TIPOS_DE_LECHE for p in PLANTAS for c in CLIENTES])
 
-lista_auxiliar =[]
-for  l in TIPOS_DE_LECHE:
-    for p in PLANTAS:
-        for c in CLIENTES:
-            lista_auxiliar.append((l,p,c))
-            
-x=lp.LpVariable.dicts(name='Litros_leche_plantas_a_clientes', indexs=lista_auxiliar, lowBound= 0, cat=lp.LpContinuous)
+#Define si se compra o no el local
+x = lp.LpVariable.dict('Comprar_local', LOCALES, 0, None, lp.LpBinary)
+#numero de panaderos en el local l∈L
+y = lp.LpVariable.dict('Número_panaeros', LOCALES, 0, None, lp.LpInteger)
+#Cantidad de productos enviados del local l∈L a la universidad u∈U
+z=lp.LpVariable.dicts('Productos_enviados', [(l,u)for l in UNIVERSIDADES for u in UNIVERSIDADES], 0,lp.LpContinuous)
 
-lista_auxiliar_indices =[]
-for v in PROVEEDORES:
-    for p in PLANTAS:
-        lista_auxiliar_indices.append((v,p))
-            
-            
-z=lp.LpVariable.dicts(name='Litros_leche_proveedores_plantas', indexs=lista_auxiliar_indices, lowBound= 0, cat=lp.LpContinuous)
 
 #Crear problema
-prob =lp.LpProblem(name="Transporte", sense =lp.LpMinimize)
+prob =lp.LpProblem("Panaderia",lp.LpMinimize)
 
 #Funcion Objetivo
 
