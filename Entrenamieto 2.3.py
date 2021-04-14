@@ -84,4 +84,14 @@ print("Status: ",lp.LpStatus[prob.status])
 
 print('El costo total es: ', lp.value(prob.objective))
 
+
+
+
+
+
+
+
+
+
+
     
