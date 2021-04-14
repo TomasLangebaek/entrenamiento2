@@ -20,7 +20,7 @@ costo_mantenimiento={'Chapinero':250000,'La Candelaria': 165000 ,'Av 7':300000,'
 costo_envio={('Chapinero','Javeriana'):0.3,('Chapinero','Rosario'):1.5,('Chapinero','Tadeo'):0.9,
    ('Chapinero','Central'):0.4,('La Candelaria','Javeriana'):1.1,('La Candelaria','Rosario'):0.4,
    ('La Candelaria','Tadeo'):0.2,('La Candelaria','Central'):1,('Av 7','Javeriana'):0.1,
-   ('Av 7','Rosario'):18899,('Av 7','Tadeo'):1.9,('Av 7','Central'):0.2,
+   ('Av 7','Rosario'):1.7,('Av 7','Tadeo'):1.9,('Av 7','Central'):0.2,
    ('Av Jiménez','Javeriana'):1.7,('Av Jiménez','Rosario'):0.1,('Av Jiménez','Tadeo'):0.3,
    ('Av Jiménez','Central'):1.6}
 
