@@ -41,7 +41,13 @@ x = lp.LpVariable.dict('Comprar_local', LOCALES, 0, None, lp.LpBinary)
 #numero de panaderos en el local l∈L
 y = lp.LpVariable.dict('Número_panaeros', LOCALES, 0, None, lp.LpInteger)
 #Cantidad de productos enviados del local l∈L a la universidad u∈U
-z=lp.LpVariable.dicts('Productos_enviados', [(l,u)for l in UNIVERSIDADES for u in UNIVERSIDADES], 0,lp.LpContinuous)
+lista_auxiliar_indices =[]
+for l in LOCALES:
+    for u in UNIVERSIDADES:
+        lista_auxiliar_indices.append((l,u))
+            
+            
+z=lp.LpVariable.dicts(name='productos_enviados', indexs=lista_auxiliar_indices, lowBound= 0, cat=lp.LpContinuous)
 
 
 #Crear problema
@@ -49,26 +55,24 @@ prob =lp.LpProblem("Panaderia",lp.LpMinimize)
 
 #Funcion Objetivo
 
-prob+=lp.lpSum(e[(p,c)]*lp.lpSum(x[(l,p,c)]for l in TIPOS_DE_LECHE)for p in PLANTAS for c in CLIENTES)+lp.lpSum(b[(v,p)]*z[(v,p)]for v in PROVEEDORES for p in PLANTAS)
+prob+=lp.lpSum(x[l]*costo_mantenimiento[l]for l in LOCALES)+lp.lpSum(y[l]*salario for l in LOCALES)+lp.lpSum(z[(l,u)]*costo_envio[(l,u)] for l in LOCALES for u in UNIVERSIDADES)
 
 #Restricciones
 
-#Balance de Produccion
-
-for p in PLANTAS:
-    prob+=lp.lpSum(z[(v, p)]for v in PROVEEDORES)== lp.lpSum(x[(l,p,c)]for c in CLIENTES for l in TIPOS_DE_LECHE ), "Balance_de_preduccion"+str(p)
+#Cantidad máxima de empleados por local
+for l in LOCALES:
+    prob+=y[l]<= panaderos[l]*x[l]
 
 #Capacidad
 
-for v in PROVEEDORES:
-    prob+=lp.lpSum(z[(v, p)]for p in PLANTAS)<=k[v], "Capacidad_proveedor"+str(v)
+for l in LOCALES:
+    prob+=y[l]*produccion>=lp.lpSum(z[(l, u)]for u in UNIVERSIDADES)
 
 
 #Demanda
 
-for c in CLIENTES:
-    for l in TIPOS_DE_LECHE:
-        prob+=lp.lpSum(x[(l,p,c)]for p in PLANTAS)>=d[(c,l)], "Demanda_cliente"+str(c)+"por_tipo"+str(l)
+for u in UNIVERSIDADES:
+    prob+=lp.lpSum(z[(l,u)]for l in LOCALES)>=demanda[u]
         
 #Resolver el problema
 prob.solve()
@@ -78,7 +82,7 @@ print("Status: ",lp.LpStatus[prob.status])
 
 #Funcion Objetivo
 
-print(f 'El costo total es:{lp.value(prob.objective)} ')
+print('El desempeño total es: ', lp.value(prob.objective))
 
 
 
