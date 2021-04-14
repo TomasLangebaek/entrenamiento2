@@ -12,13 +12,13 @@ FRANJAS=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
 
 
 # PARAMETROS
-# Cantidad maxima de panaderos un local
+# Duración de la pelicula m∈M
 duracion={'Titanic':7,'Inception':6,'Pulp Fiction':6,'Fight club':5}
 
-#costo diario de mantenimiento [COP]   en un local 
+#Número minimo de proyecciones diarias de la pelicula  m∈M
 min_proyecciones={'Titanic':1,'Inception':5,'Pulp Fiction':2,'Fight club':3}
 
-#Costo de envio de un local a una universidad
+#Asistencia para la película m∈M en la franja f∈F
 asistencia={('Titanic',1):73,('Titanic',2):107,('Titanic',3):96,
    ('Titanic',4):78,('Titanic',5):75,('Titanic',6):54,
    ('Titanic',7):105,('Titanic',8):62,('Titanic',9):110,
@@ -41,34 +41,24 @@ asistencia={('Titanic',1):73,('Titanic',2):107,('Titanic',3):96,
    ('Fight club',13):0,('Fight club',14):0,('Fight club',15):0,
    ('Fight club',16):0}
 
-#Demanda diaria en una Univerisdad
-demanda={'Javeriana':2745,'Rosario':3965,'Tadeo':4402,'Central':2003}
 
-#Salario diario de un panadero [COP]
-salario=90000
-
-#Producción diaria de un panadero [Productos de panaderia]
-produccion=300
 
 
 # variables de decicion
-
-#Define si se compra o no el local
-x = lp.LpVariable.dict('Comprar_local', LOCALES, 0, None, lp.LpBinary)
-#numero de panaderos en el local l∈L
-y = lp.LpVariable.dict('Número_panaeros', LOCALES, 0, None, lp.LpInteger)
-#Cantidad de productos enviados del local l∈L a la universidad u∈U
 lista_auxiliar_indices =[]
-for l in LOCALES:
-    for u in UNIVERSIDADES:
-        lista_auxiliar_indices.append((l,u))
+for m in PELICULAS:
+    for p in PARQUEADEROS:
+        for f in FRANJAS:
+            lista_auxiliar_indices.append((m, p, f))
             
             
-z=lp.LpVariable.dicts(name='productos_enviados', indexs=lista_auxiliar_indices, lowBound= 0, cat=lp.LpContinuous)
-
+#Define si se esta proyectando la pelicula m∈M en el parqueadero p∈P en la franja f ∈F
+x = lp.LpVariable.dicts('proyeccion', lista_auxiliar_indices, 0, None, lp.LpBinary)
+#Define si se inicia la proyección de la pelicula m∈M en el parqueadero p∈P en la franja f ∈F
+y = lp.LpVariable.dicts('inicio_proyeccion', lista_auxiliar_indices, 0, None, lp.LpBinary)
 
 #Crear problema
-prob =lp.LpProblem("Panaderia",lp.LpMinimize)
+prob = lp.LpProblem('AutoCine', lp.LpMaximize)
 
 #Funcion Objetivo
 
