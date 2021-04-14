@@ -66,20 +66,22 @@ prob+=lp.lpSum(x[l]*costo_mantenimiento[l]for l in LOCALES)+lp.lpSum(y[l]*salari
 
 #Restricciones
 
-#Cantidad máxima de empleados por local
-for l in LOCALES:
-    prob+=y[l]<= panaderos[l]*x[l]
+#Garantizar que en una sala solo se esté proyectando una película a la vez
+for p in PARQUEADEROS:
+    for f in FRANJAS:
+        prob+=lp.lpSum(x[(m,p,f)]for m in PELICULAS)<=1
 
-#Capacidad
+#Garantizar que una película se proyecte al menos una cantidad especifica de veces durante el día
+for m in PELICULAS:
+    prob+=lp.lpSum(y[(m,p,f)]for p in PARQUEADEROS for f in FRANJAS )<=min_proyecciones[m]
 
-for l in LOCALES:
-    prob+=y[l]*produccion>=lp.lpSum(z[(l, u)]for u in UNIVERSIDADES)
 
-
-#Demanda
+#Garantizar que no se inicie la proyección de una película en másde un parqueadero al tiempo
 
 for u in UNIVERSIDADES:
     prob+=lp.lpSum(z[(l,u)]for l in LOCALES)>=demanda[u]
+    
+#Modele la(s) condición(es) sobre la duración de una película
         
 #Resolver el problema
 prob.solve()
