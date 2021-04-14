@@ -19,10 +19,10 @@ costo_mantenimiento={'Chapinero':250000,'La Candelaria': 165000 ,'Av 7':300000,'
 
 costo_envio={('Chapinero','Javeriana'):0.3,('Chapinero','Rosario'):1.5,('Chapinero','Tadeo'):0.9,
    ('Chapinero','Central'):0.4,('La Candelaria','Javeriana'):1.1,('La Candelaria','Rosario'):0.4,
-   ('La Candelaria','Tadeo'):0,2,('La Candelaria','Central'):44322,('Av 7','Javeriana'):10521,
-   ('Av 7','Rosario'):18899,('Av 7','Tadeo'):1751,('Av 7','Central'):3594,
-   ('Av Jiménez','Javeriana'):44368,('Av Jiménez','Rosario'):4960,('Av Jiménez','Tadeo'):1404,
-   ('Av Jiménez','Central'):7930}
+   ('La Candelaria','Tadeo'):0.2,('La Candelaria','Central'):1,('Av 7','Javeriana'):0.1,
+   ('Av 7','Rosario'):18899,('Av 7','Tadeo'):1.9,('Av 7','Central'):0.2,
+   ('Av Jiménez','Javeriana'):1.7,('Av Jiménez','Rosario'):0.1,('Av Jiménez','Tadeo'):0.3,
+   ('Av Jiménez','Central'):1.6}
 
 
 desempeno={'Alejandro':1,'Alfaima':7,'Andrés':4,'Ariadna':9,'Benji':7,'Camila':6,'Camilo':7,'César':9,'Cristian':7,'Daniel C':5,'Daniel Y':10,'Diana':6,'Felipe':6,'Freddy':8,'Jimmy':9,'Johan':8,'Juan Diego':8,'Juan E':3,'Juliana':6,'Lucia':3,'María Paulina':5,'Santiago':6,'Saúl':10,'Sofía':4,'Valentina':6,'Vivian':7}
