@@ -82,7 +82,7 @@ print("Status: ",lp.LpStatus[prob.status])
 
 #Funcion Objetivo
 
-print('El desempeño total es: ', lp.value(prob.objective))
+print('El costo total es: ', lp.value(prob.objective))
 
 
 
