@@ -75,7 +75,6 @@ for m in PELICULAS:
 
 
 #Garantizar que no se inicie la proyección de una película en más de un parqueadero al tiempo
-
 for f in FRANJAS:
     for m in PELICULAS:
         prob+=lp.lpSum(y[(m,p,f)]for p in PARQUEADEROS)<=1

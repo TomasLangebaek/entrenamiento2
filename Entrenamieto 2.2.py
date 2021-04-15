@@ -84,4 +84,13 @@ print("Status: ",lp.LpStatus[prob.status])
 
 print('El costo total es: ', lp.value(prob.objective))
 
+for l in LOCALES:
+    if x[l].varValue == 1:
+        print(f'Se compro el local {l}, número panaderos {y[l].varValue}')
+        for u in UNIVERSIDADES:
+            print(f'Se enviaron {z[(l,u)].varValue} productos a la universidad {u}')
+    else:
+        print(f'No se compró el local {l} ')
+    
+
     

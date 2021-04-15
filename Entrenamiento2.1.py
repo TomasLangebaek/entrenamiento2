@@ -76,4 +76,10 @@ print('status: ', lp.LpStatus[prob.status])
 # imprimir la fo
 print('El desempeño total es: ', lp.value(prob.objective))
 
+for n in NADADORES:
+    if x[n].varValue == 1:
+        print(f'Se selecciono el nadador {n}, {SALARIO[n]}')
+    else:
+        print(f'No se seleccionó el nadador {n} ')
+
 
