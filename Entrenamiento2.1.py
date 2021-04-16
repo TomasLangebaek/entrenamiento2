@@ -1,4 +1,4 @@
-# La Lactosa S.A.S.
+# Entrenamiento 2.1
 
 import pulp as lp
 

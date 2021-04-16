@@ -1,4 +1,4 @@
-# La Lactosa S.A.S.
+# Entrenamiento 2.3
 
 import pulp as lp
 
@@ -82,7 +82,7 @@ for f in FRANJAS:
 #Duración de una película
 for m in PELICULAS:
     for p in PARQUEADEROS:
-        prob+=lp.lpSum(x[(m,p,f)]for f in FRANJAS)==duracion[m]*y[(m,p,f)]
+        prob+=lp.lpSum(x[(m,p,f)]for f in FRANJAS)/duracion[m]==lp.lpSum(y[(m,p,f)] for f in FRANJAS)
 
 #Garantiza que la reproduccion de la pelicula sea continua
 for m in PELICULAS:
@@ -91,12 +91,12 @@ for m in PELICULAS:
             if f+duracion[m]-1<=len(FRANJAS):    
                 prob+=lp.lpSum(x[(m,p,i)]for i in range(f,f+duracion[m]))>=duracion[m]*y[(m,p,f)]
               
-# #Garantiza que no inicie la reproduccion de una pelicula si no se puedde terminar
-# for m in PELICULAS:
-#     for p in PARQUEADEROS:
-#         for f in FRANJAS:
-#             if f+ duracion[m]-1>len(FRANJAS):
-#                 prob+=y[(m,p,f)]==0
+#Garantiza que no inicie la reproduccion de una pelicula si no se puede terminar
+for m in PELICULAS:
+    for p in PARQUEADEROS:
+        for f in FRANJAS:
+            if f+ duracion[m]-1>len(FRANJAS):
+                prob+=y[(m,p,f)]==0
         
 #Resolver el problema
 prob.solve()
