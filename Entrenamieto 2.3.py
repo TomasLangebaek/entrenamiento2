@@ -60,7 +60,7 @@ prob = lp.LpProblem('AutoCine', lp.LpMaximize)
 
 #Funcion Objetivo
 
-prob+=lp.lpSum(y[(m, p, f)]*asistencia[(m,f)]for m in PELICULAS for p in PARQUEADEROS for f in FRANJAS)
+prob+=lp.lpSum(y[(m,p,f)]*asistencia[(m,f)]for m in PELICULAS for p in PARQUEADEROS for f in FRANJAS)
 
 #Restricciones
 
@@ -74,7 +74,7 @@ for m in PELICULAS:
     prob+=lp.lpSum(y[(m,p,f)]for p in PARQUEADEROS for f in FRANJAS )>=min_proyecciones[m]
 
 
-#Garantizar que no se inicie la proyección de una película en más de un parqueadero al tiempo
+#Garantizar que no se inicie la proyección de una misma película en más de un parqueadero al tiempo
 for f in FRANJAS:
     for m in PELICULAS:
         prob+=lp.lpSum(y[(m,p,f)]for p in PARQUEADEROS)<=1
@@ -82,14 +82,16 @@ for f in FRANJAS:
 #Duración de una película
 for m in PELICULAS:
     for p in PARQUEADEROS:
-        prob+=lp.lpSum(x[(m,p,f)]for f in FRANJAS)/duracion[m]==lp.lpSum(y[(m,p,f)] for f in FRANJAS)
+        prob+=lp.lpSum(x[(m,p,f)]for f in FRANJAS)==duracion[m]*lp.lpSum(y[(m,p,f)]for f in FRANJAS)
 
 #Garantiza que la reproduccion de la pelicula sea continua
+#Garantizar que la película se empieza una vez en la franja de se reproduce
 for m in PELICULAS:
     for p in PARQUEADEROS:
         for f in FRANJAS:
             if f+duracion[m]-1<=len(FRANJAS):    
                 prob+=lp.lpSum(x[(m,p,i)]for i in range(f,f+duracion[m]))>=duracion[m]*y[(m,p,f)]
+                prob+=lp.lpSum(y[(m,p,i)] for i in range(f, f+duracion[m])) <= 1
               
 #Garantiza que no inicie la reproduccion de una pelicula si no se puede terminar
 for m in PELICULAS:
@@ -97,6 +99,10 @@ for m in PELICULAS:
         for f in FRANJAS:
             if f+ duracion[m]-1>len(FRANJAS):
                 prob+=y[(m,p,f)]==0
+
+
+
+                
         
 #Resolver el problema
 prob.solve()
@@ -114,7 +120,9 @@ for p in PARQUEADEROS:
         print(f'{f}')
         for m in PELICULAS:
             if x[(m,p,f)].varValue == 1:
-                print(f'La pelicula {m} se está reproduciendo')
+                print(f'La pelicula {m} se está reproduciendo{y[(m,p,f)].varValue}')
+
+print("Status: ",lp.LpStatus[prob.status])
 
 
 
