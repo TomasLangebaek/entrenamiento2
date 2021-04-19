@@ -85,12 +85,17 @@ for m in PELICULAS:
         prob+=lp.lpSum(x[(m,p,f)]for f in FRANJAS)==duracion[m]*lp.lpSum(y[(m,p,f)]for f in FRANJAS)
 
 #Garantiza que la reproduccion de la pelicula sea continua
-#Garantizar que la película se empieza una vez en la franja de se reproduce
 for m in PELICULAS:
     for p in PARQUEADEROS:
         for f in FRANJAS:
             if f+duracion[m]-1<=len(FRANJAS):    
                 prob+=lp.lpSum(x[(m,p,i)]for i in range(f,f+duracion[m]))>=duracion[m]*y[(m,p,f)]
+
+#Garantizar que la película se empieza una vez en la franja de se reproduce
+for m in PELICULAS:
+    for p in PARQUEADEROS:
+        for f in FRANJAS:
+            if f+duracion[m]-1<=len(FRANJAS):    
                 prob+=lp.lpSum(y[(m,p,i)] for i in range(f, f+duracion[m])) <= 1
               
 #Garantiza que no inicie la reproduccion de una pelicula si no se puede terminar
