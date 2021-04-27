@@ -1,5 +1,6 @@
 # Entrenamiento 2.1
-
+#Tomás Langebaek Carrizosa
+#Mariana Forero Ávila
 import pulp as lp
 
 # CONJUNTOS
